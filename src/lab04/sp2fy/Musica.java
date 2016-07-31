@@ -21,14 +21,26 @@ public class Musica {
 	 * @throws Exception Se qualquer atributo for invalido
 	 */
 	public Musica(String titulo, int duracao, String genero) throws Exception {
-		if(titulo.equals("") || titulo.equals(null) || genero.equals("") || genero.equals(null) || duracao <= 0){
-			throw new Exception();
-		}
+		this.testaStringInvalida(titulo, "Titulo");
 		this.titulo = titulo;
+		this.testaDuracaoInvalida(duracao);
 		this.duracao = duracao;
+		this.testaStringInvalida(genero, "Geenero");
 		this.genero = genero;
 	} // Fim do construtor
 	
+	private void testaDuracaoInvalida(int duracao) throws Exception{
+		if(duracao <= 0){
+			throw new Exception("Duracao invalida");
+		}
+	} // Fim do metodo testaDuracaoInvalida
+
+	private void testaStringInvalida(String entrada, String tipo) throws Exception{
+		if(entrada.equals("") || entrada == null){
+			throw new Exception(tipo + " invalido(a)");
+		}
+	} // Fim do metodo testaStringInvalida
+
 	/**
 	 * mostra todas as informações das musicas
 	 */
@@ -36,6 +48,17 @@ public class Musica {
 	public String toString() {
 		return String.format("%s (%s - %d) minutos", this.titulo, this.genero, this.duracao);
 	} // Fim do metodo toString
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Musica) {
+			Musica outraMusica = (Musica) obj;
+			if(this.getTitulo().equals(outraMusica.getTitulo()) && this.getDuracao() == outraMusica.getDuracao()){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/*metodos gets e sets*/
 	
@@ -50,10 +73,6 @@ public class Musica {
 	public int getDuracao() {
 		return duracao;
 	} // Fim do metodo getDuracao
-
-	public void setDuracao(int duracao) {
-		this.duracao = duracao;
-	} // Fim do metodo setDuracao
 
 	public String getGenero() {
 		return genero;
